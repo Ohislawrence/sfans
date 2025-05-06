@@ -1,0 +1,5 @@
+Hello|||Hi there! How can I help you today?
+What's your name?|||I'm a chatbot assistant!
+How does this work?|||I learn from training data to answer your questions.
+Goodbye|||See you later! Have a great day!
+What time is it?|||I don't actually know the current time.

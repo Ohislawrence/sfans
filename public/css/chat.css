@@ -1,0 +1,331 @@
+
+    :root {
+        --yt-dark-1: #121212;
+        --yt-dark-2: #202020;
+        --yt-dark-3: #303030;
+        --yt-dark-4: #424242;
+        --yt-text-primary: #ffffff;
+        --yt-text-secondary: #aaaaaa;
+        --yt-red: #ff0000;
+        --link-active: #ff4444;
+    }
+    
+    body {
+        padding-top: 56px;
+        margin: 0;
+        background-color: var(--yt-dark-1);
+        color: var(--yt-text-primary);
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+    
+    .navbar {
+        background-color: var(--yt-dark-2) !important;
+        border-bottom: 1px solid var(--yt-dark-3);
+    }
+    
+    .navbar-brand {
+        font-weight: 500;
+    }
+    
+    /* Main layout */
+    .main-content {
+        height: calc(100vh - 56px);
+        overflow: hidden;
+    }
+    
+    /* Cards styling */
+    .chat-card {
+        background-color: var(--yt-dark-2);
+        border-radius: 0;
+        border: none;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        scroll-behavior: smooth;
+        overflow-anchor: none; /* Lets our JS control scrolling */
+    }
+    
+    .card-header, .card-footer {
+        background-color: var(--yt-dark-2);
+        border-color: var(--yt-dark-3) !important;
+        padding: 0.75rem 1rem;
+    }
+    
+    .card-body {
+        overflow-y: auto;
+        flex: 1;
+        padding: 0;
+    }
+    
+    /* Users list */
+    .users-card {
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+    }
+    
+    .user-item {
+        cursor: pointer;
+        transition: background-color 0.2s;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--yt-dark-3);
+    }
+    
+    .user-item:hover {
+        background-color: var(--yt-dark-3);
+    }
+    
+    .user-item.active-chat {
+        background-color: var(--yt-dark-4);
+    }
+    
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 0.75rem;
+    }
+    
+    .user-info {
+        flex: 1;
+        min-width: 0;
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .user-info h6 {
+        margin-bottom: 0.1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: color 0.2s;
+    }
+    
+    .user-info:hover h6 {
+        color: var(--link-active);
+    }
+    
+    .user-item.active-chat .user-info h6 {
+        color: var(--yt-red);
+    }
+    
+    .user-info small {
+        font-size: 0.75rem;
+        color: var(--yt-text-secondary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+    }
+    
+    .user-status {
+        font-size: 0.7rem;
+        color: var(--yt-text-secondary);
+    }
+    
+    /* Date separator */
+    .date-separator {
+        display: flex;
+        align-items: center;
+        margin: 1rem 0;
+        color: var(--yt-text-secondary);
+        font-size: 0.8rem;
+    }
+    
+    .date-separator::before,
+    .date-separator::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background-color: var(--yt-dark-3);
+        margin: 0 0.75rem;
+    }
+    
+    /* Messages */
+    .messages-container {
+        padding: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .message {
+        max-width: 85%;
+        padding: 0.6rem 0.8rem;
+        border-radius: 18px;
+        position: relative;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        word-wrap: break-word;
+    }
+    
+    .message-sent {
+        align-self: flex-end;
+        background-color: var(--yt-red);
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+    
+    .message-received {
+        align-self: flex-start;
+        background-color: var(--yt-dark-3);
+        border-bottom-left-radius: 4px;
+    }
+    
+    .message-time {
+        font-size: 0.65rem;
+        margin-top: 0.2rem;
+        text-align: right;
+        color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .message-received .message-time {
+        color: var(--yt-text-secondary);
+    }
+    
+    /* Input area */
+    .message-input {
+        background-color: var(--yt-dark-3);
+        border: none;
+        color: var(--yt-text-primary);
+        padding: 0.6rem 1rem;
+        border-radius: 20px;
+    }
+    
+    .message-input:focus {
+        background-color: var(--yt-dark-3);
+        color: var(--yt-text-primary);
+        box-shadow: none;
+    }
+    
+    .send-button {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--yt-red);
+        color: white;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0.5rem;
+    }
+    
+    /* Mobile specific styles */
+    @media (max-width: 767.98px) {
+        .users-card {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .users-card.show {
+            transform: translateX(0);
+        }
+        
+        .chat-card {
+            width: 100%;
+        }
+        
+        .back-button {
+            display: block !important;
+        }
+        
+        .message {
+            max-width: 90%;
+            font-size: 0.95rem;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+        }
+    }
+    
+    /* Desktop specific styles */
+    @media (min-width: 768px) {
+        .main-content {
+            display: flex;
+            gap: 16px;
+            padding: 1rem;
+        }
+        
+        .users-card {
+            width: 320px;
+            flex-shrink: 0;
+        }
+        
+        .chat-card {
+            flex-grow: 1;
+            border-radius: 12px;
+        }
+        
+        .back-button {
+            display: none !important;
+        }
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: var(--yt-dark-2);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: var(--yt-dark-4);
+        border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+
+    #chat-box {
+        max-height: 400px; /* or whatever height you need */
+        overflow-y: auto;
+    }
+
+    .typing-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background-color: var(--yt-dark-3);
+        border-radius: 18px;
+        margin: 4px 0;
+        width: fit-content;
+        font-size: 0.85rem;
+        color: var(--yt-text-secondary);
+        opacity: 0;
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+    
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
+    
+    .typing-dots {
+        display: flex;
+        gap: 4px;
+    }
+    
+    .typing-dot {
+        width: 8px;
+        height: 8px;
+        background-color: var(--yt-text-secondary);
+        border-radius: 50%;
+        animation: typingBounce 1.4s infinite ease-in-out;
+    }
+    
+    @keyframes typingBounce {
+        0%, 60%, 100% { transform: translateY(0); }
+        30% { transform: translateY(-3px); }
+    }

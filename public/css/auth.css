@@ -1,0 +1,259 @@
+:root {
+    /* Your existing CSS variables */
+    --yt-red: #ff0000;
+    --yt-dark: #0f0f0f;
+    --yt-dark-2: #181818;
+    --yt-dark-3: #212121;
+    --yt-dark-4: #303030;
+    --yt-light-dark: #383838;
+    --yt-gray: #aaaaaa;
+    --yt-light-gray: #f1f1f1;
+    --yt-text-primary: #f1f1f1;
+    --yt-text-secondary: #aaa;
+    --yt-scrollbar: #606060;
+    --yt-scrollbar-hover: #808080;
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --transition-fast: 0.15s;
+    --transition-normal: 0.3s;
+    --transition-slow: 0.5s;
+}
+
+body {
+    background-color: var(--yt-dark);
+    color: var(--yt-text-primary);
+    font-family: 'Roboto', Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-container {
+    background-color: var(--yt-dark-2);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--yt-dark-3);
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-lg);
+    margin-top: var(--space-xl);    /* Adds space above the card */
+    margin-bottom: var(--space-xl); /* Adds space below the card */
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.auth-logo {
+    color: var(--yt-red);
+    font-size: 2.5rem;
+    margin-bottom: var(--space-md);
+}
+
+.auth-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: var(--space-sm);
+}
+
+.auth-subtitle {
+    color: var(--yt-text-secondary);
+    font-size: 0.9rem;
+}
+
+.form-control {
+    background-color: var(--yt-dark-3);
+    border: 1px solid var(--yt-dark-4);
+    color: var(--yt-text-primary);
+    padding: var(--space-sm) var(--space-md);
+    height: 45px;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-md);
+}
+
+.form-control:focus {
+    background-color: var(--yt-dark-3);
+    color: var(--yt-text-primary);
+    border-color: var(--yt-gray);
+    box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.25);
+}
+
+.btn-login {
+    background-color: var(--yt-red);
+    color: white;
+    border: none;
+    padding: var(--space-sm) var(--space-md);
+    height: 45px;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    width: 100%;
+    transition: background-color var(--transition-fast);
+}
+
+.btn-login:hover {
+    background-color: #cc0000;
+    color: white;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: var(--space-lg);
+    color: var(--yt-text-secondary);
+    font-size: 0.9rem;
+}
+
+.auth-link {
+    color: var(--yt-red);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+.form-check-input {
+    background-color: var(--yt-dark-3);
+    border-color: var(--yt-dark-4);
+}
+
+.form-check-input:checked {
+    background-color: var(--yt-red);
+    border-color: var(--yt-red);
+}
+
+.form-check-label {
+    color: var(--yt-text-secondary);
+    font-size: 0.9rem;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: var(--space-lg) 0;
+    color: var(--yt-text-secondary);
+    font-size: 0.8rem;
+}
+
+.divider::before, .divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid var(--yt-dark-3);
+}
+
+.divider::before {
+    margin-right: var(--space-md);
+}
+
+.divider::after {
+    margin-left: var(--space-md);
+}
+
+.btn-google {
+    background-color: var(--yt-dark-3);
+    color: var(--yt-text-primary);
+    border: 1px solid var(--yt-dark-4);
+    padding: var(--space-sm) var(--space-md);
+    height: 45px;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    transition: background-color var(--transition-fast);
+}
+
+.btn-google:hover {
+    background-color: var(--yt-light-dark);
+    color: var(--yt-text-primary);
+}
+
+.password-strength {
+    height: 4px;
+    background-color: var(--yt-dark-3);
+    margin-bottom: var(--space-md);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.password-strength-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #ff0000;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.password-hints {
+    font-size: 0.8rem;
+    color: var(--yt-text-secondary);
+    margin-bottom: var(--space-md);
+}
+
+.password-hint {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--space-xs);
+}
+
+.password-hint i {
+    margin-right: var(--space-xs);
+    font-size: 0.7rem;
+}
+
+.password-hint.valid {
+    color: #4CAF50;
+}
+
+/* Add white placeholder text */
+::placeholder {
+    color: var(--yt-text-primary) !important;
+    opacity: 0.7;
+}
+
+/* Vendor prefixes for better browser support */
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: var(--yt-text-primary) !important;
+    opacity: 0.7;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    color: var(--yt-text-primary) !important;
+    opacity: 0.7;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    color: var(--yt-text-primary) !important;
+    opacity: 0.7;
+}
+:-moz-placeholder { /* Firefox 18- */
+    color: var(--yt-text-primary) !important;
+    opacity: 0.7;
+}
+
+.btn-register {
+    background-color: var(--yt-red);
+    color: white;
+    border: none;
+    padding: var(--space-sm) var(--space-md);
+    height: 45px;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    width: 100%;
+    transition: background-color var(--transition-fast);
+}
+
+.btn-register:hover {
+    background-color: #cc0000;
+    color: white;
+}
