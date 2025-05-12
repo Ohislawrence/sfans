@@ -90,6 +90,7 @@
         @yield('header')
         @include('layouts.meta')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <meta name="juicyads-site-verification" content="297d1fe6d32802a4431b39dd4881e061">
     </head>
     <body>
         <div class="@if(!session('age_verified') && !request()->cookie('age_verified')) blur @endif">
