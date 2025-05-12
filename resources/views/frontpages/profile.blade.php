@@ -1,10 +1,10 @@
 @extends('layouts.guest')
-@section('title',  'Refund Policy' )
+@section('title',  $user->name. ' profile' )
 @section('type',  'website' )
 @section('url',  Request::url() )
-@section('image',  asset("images/tracklia-page.jpg") )
-@section('description',  'This policy is effective as of 11th November 2024' )
-@section('imagealt',  'Refund Policy image' )
+@section('image',  asset('storage/' . $user->display_photo) )
+@section('description',  $user->bio )
+@section('imagealt',  $user->username )
 
 
 @section('header')
@@ -42,12 +42,19 @@
             <div class="profile-handle">{{ '@' .$user->username }}</div>
             
             <div class="profile-actions">
-                <button class="btn btn-danger btn-profile-action">
-                    <i class="fas fa-bell"></i> 
-                </button>
-                <button onclick="location.href='{{ route('chat', ['botUserId' => $user->username]) }}'" class="btn btn-outline-light btn-profile-action">
-                    <i class="fa-solid fa-comments"></i> Let's Chat
-                </button>
+                @if ($user->hasRole('slut'))
+                    <button onclick="location.href='{{ route('chat', ['botUserId' => $user->username]) }}'" class="btn btn-outline-light btn-profile-action">
+                        <i class="fa-solid fa-comments"></i> Let's Chat
+                    </button>
+                @endif
+                @auth
+                    @if ($user->username == auth()->user()->username )
+                        <button onclick="location.href='{{ route('profile.edit') }}'" class="btn btn-outline-light btn-profile-action">
+                            <i class="fa-solid fa-user-pen"></i> Edit Profile
+                        </button>
+                    @endif
+                @endauth
+                
             </div>
             
             <p class="profile-bio">{{ $user->bio }}</p>
@@ -64,8 +71,8 @@
             </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button onclick="window.location.href='{{ route('profile', ['username' => $user->username, 'tab' => 'shorts']) }}';" class="nav-link {{ request('tab') === 'shorts' ? 'active' : '' }}" >
-                <i class="fa-solid fa-file-video"></i> Shorts
+            <button onclick="window.location.href='{{ route('profile', ['username' => $user->username, 'tab' => 'gifs']) }}';" class="nav-link {{ request('tab') === 'gifs' ? 'active' : '' }}" >
+                <i class="fa-solid fa-file-video"></i> Gifs
             </button>
         </li>
         <li class="nav-item" role="presentation">
@@ -73,22 +80,17 @@
                 <i class="fa-solid fa-image"></i> Photos
             </button>
         </li>
-        <li class="nav-item" role="presentation">
-            <button onclick="window.location.href='{{ route('profile', ['username' => $user->username, 'tab' => 'chats']) }}';" 
-                class="nav-link {{ request('tab') === 'chats' ? 'active' : '' }}">
-            <i class="fa-solid fa-comments"></i> Chat Rooms
-        </button>
         </li>
     </ul>
     
     <!-- Tab Content -->
     <div class="tab-content" id="profileTabsContent">
-        @if(request('tab') === 'videos' || $tab === 'videos')
+        @if($tab === null || $tab === 'videos')
             @include('frontpages.profiletabs.videos')
         @elseif(request('tab') === 'photos')
             @include('frontpages.profiletabs.photos')
-            @elseif(request('tab') === 'shorts')
-            @include('frontpages.profiletabs.shorts')
+        @elseif(request('tab') === 'gifs')
+            @include('frontpages.profiletabs.gifs')
         @endif
     </div>
 </div>

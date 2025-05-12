@@ -1,10 +1,10 @@
 @extends('layouts.guest')
-@section('title',  'Refund Policy' )
+@section('title',  $video->title )
 @section('type',  'website' )
 @section('url',  Request::url() )
-@section('image',  asset("images/tracklia-page.jpg") )
-@section('description',  'This policy is effective as of 11th November 2024' )
-@section('imagealt',  'Refund Policy image' )
+@section('image',  $video->thumbnail)
+@section('description',  $video->title )
+@section('imagealt',  $video->slug )
 
 
 @section('header')
@@ -24,7 +24,7 @@
 <div class="main-content">
     <div class="tags-container">
         @foreach($video->tags as $cat)
-            <button class="category-btn" onclick="window.location.href='{{ route('category.video', [ $cat]) }}';">{{ $cat }}</button>
+            <button class="category-btn" onclick="window.location.href='{{ route('category.all', [ $cat]) }}';">{{ $cat }}</button>
         @endforeach
     </div>
     <div class="row">
@@ -53,14 +53,13 @@
             
         </div>
         
-        <!-- Recommended Videos -->
+        <!-- Ads -->
         <div class="col-lg-4">
-            <a href="" class="video-ad-card">
-                <img src="{{ asset('img/25933926.jpg') }}" alt="" class="video-ad-img">
-            </a>
-            <a href="" class="video-ad-card">
-                <img src="{{ asset('img/25933926.jpg') }}" alt="" class="video-ad-img">
-            </a>
+            <div class="image-view-main">
+                <a href="" class="image-container">
+                    <img src="{{ asset('img/26053888.jpg') }}" alt="" class="video-ad-img">
+                </a>
+            </div>
         </div>
             
     </div>
@@ -90,6 +89,8 @@
         @empty
             <h1>No video</h1>
         @endforelse
+        <!-- Ad Banner Section - Place this under the video content -->
+        @include('frontpages.adspages.bannerbig')
     </div>
 </div>
 @endsection

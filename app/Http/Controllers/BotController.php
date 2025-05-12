@@ -22,11 +22,14 @@ class BotController extends Controller
     {
         $user = auth()->user();
         $botUser = User::where('username', $botId)->role('slut')->first();
+        if(!$botUser){
+            return null;
+        }
         $chatlist = Conversation::selectRaw('chatbot_id, MAX(updated_at) as last_updated_at')
                     ->groupBy('chatbot_id')
                     ->orderByDesc('last_updated_at')
                     ->get();
-                    $oldmessages = Conversation::where('user_id', $user->id)
+        $oldmessages = Conversation::where('user_id', $user->id)
                     ->where('chatbot_id', $botUser->chatslut->id)
                     ->orderBy('created_at')
                     ->get(['id', 'response', 'message', 'created_at']);
@@ -91,5 +94,14 @@ class BotController extends Controller
         return $date->format('M j, Y'); // May 2, 2025
     }
 
+    public function allMessages()
+    {
+        $chatlist = Conversation::selectRaw('chatbot_id, MAX(updated_at) as last_updated_at')
+                    ->groupBy('chatbot_id')
+                    ->orderByDesc('last_updated_at')
+                    ->get();
+                    
+        return view('frontpages.chat.indexnochat', compact('chatlist'));
+    }
     
 }

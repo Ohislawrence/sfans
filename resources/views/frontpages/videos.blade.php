@@ -1,10 +1,10 @@
 @extends('layouts.guest')
-@section('title',  'Refund Policy' )
+@section('title',  'Videos' )
 @section('type',  'website' )
 @section('url',  Request::url() )
 @section('image',  asset("images/tracklia-page.jpg") )
-@section('description',  'This policy is effective as of 11th November 2024' )
-@section('imagealt',  'Refund Policy image' )
+@section('description',  'Sexy videos' )
+@section('imagealt',  'porn' )
 
 
 @section('header')
@@ -38,17 +38,17 @@
     <!-- Tabs -->
     <ul class="nav nav-tabs" id="profileTabs" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link {{ request()->is('category/*/videos') ? 'active' : '' }}" id="videos-tab" data-bs-toggle="tab" data-bs-target="#videos" type="button" role="tab">
+            <button class="nav-link {{ request()->is('category/videos/*') ? 'active' : '' }}" id="videos-tab" data-bs-toggle="tab" data-bs-target="#videos" type="button" role="tab">
                 <i class="fas fa-play me-1"></i> Videos
             </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="playlists-tab" data-bs-toggle="tab" data-bs-target="#playlists" type="button" role="tab">
+            <button class="nav-link {{ request()->is('category/photos/*') ? 'active' : '' }}" id="playlists-tab" data-bs-toggle="tab" data-bs-target="#playlists" type="button" role="tab">
                 <i class="fa-solid fa-image"></i> Photos
             </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="channels-tab" data-bs-toggle="tab" data-bs-target="#channels" type="button" role="tab">
+            <button class="nav-link {{ request()->is('category/gifs/*') ? 'active' : '' }}" id="channels-tab" data-bs-toggle="tab" data-bs-target="#channels" type="button" role="tab">
                 <i class="fa-solid fa-images"></i> Gifs
             </button>
         </li>
@@ -90,6 +90,8 @@
         <div class="mt-6">
             {{ $videos->links('vendor.pagination.custom') }}
         </div>
+        <!-- Ad Banner Section - Place this under the video content -->
+        @include('frontpages.adspages.bannerbig')
     </div>
 </div>
 @endsection

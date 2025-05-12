@@ -2,9 +2,9 @@
 @section('title',  $botUser->name.' chat' )
 @section('type',  'website' )
 @section('url',  Request::url() )
-@section('image',  asset("images/tracklia-page.jpg") )
-@section('description',  'This policy is effective as of 11th November 2024' )
-@section('imagealt',  'Refund Policy image' )
+@section('image',  asset('storage/' . $botUser->display_photo) )
+@section('description',  'I love to make fans cum, I love big dick.' )
+@section('imagealt',  'chat' )
 
 @section('header')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -209,7 +209,7 @@ let typingStartTime = 0;
         </div>
         
         <div class="card-footer">
-            <button class="btn btn-danger w-100">
+            <button class="btn btn-danger w-100" onclick="location.href='{{ route('sluts') }}'">
                 <i class="fas fa-plus me-2"></i> New Chat
             </button>
         </div>

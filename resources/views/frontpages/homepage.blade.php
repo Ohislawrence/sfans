@@ -1,10 +1,10 @@
 @extends('layouts.guest')
-@section('title',  'Refund Policy' )
+@section('title',  'Welcome Fan!!!' )
 @section('type',  'website' )
 @section('url',  Request::url() )
-@section('image',  asset("images/tracklia-page.jpg") )
-@section('description',  'This policy is effective as of 11th November 2024' )
-@section('imagealt',  'Refund Policy image' )
+@section('image',  asset('storage/' . $videos->random()->thumbnail) )
+@section('description',  'See your greatest fanasy come true.' )
+@section('imagealt',  '' )
 
 
 @section('header')
@@ -24,94 +24,21 @@
     <!-- Categories -->
     <div class="tags-container">
         @foreach($categories as $cat)
-            <button class="category-btn" onclick="window.location.href='{{ route('category.video', [ $cat]) }}';">{{ $cat }}</button>
+            <button class="category-btn" onclick="window.location.href='{{ route('category.all', [ $cat]) }}';">{{ $cat }}</button>
         @endforeach
     </div>
     
-    <!-- Shorts Section -->
-    <div class="shorts-section">
-        <div class="shorts-header">
-            <i class="fab fa-youtube"></i>
-            <h5>Shorts</h5>
-        </div>
-        <div class="shorts-container">
-            <!-- Short 1 -->
-            <div class="short-item">
-                <div class="short-thumbnail">
-                    <img src="https://via.placeholder.com/180x320" alt="Short video">
-                </div>
-                <div class="short-info">
-                    <h6 class="short-title">Quick coding</h6>
-                    <p class="short-views">1.2M views</p>
-                </div>
-            </div>
-            
-            <!-- Short 2 -->
-            <div class="short-item">
-                <div class="short-thumbnail">
-                    <img src="https://via.placeholder.com/180x320" alt="Short video">
-                </div>
-                <div class="short-info">
-                    <h6 class="short-title">Amazing CSS</h6>
-                    <p class="short-views">850K views</p>
-                </div>
-            </div>
-            
-            <!-- Short 3 -->
-            <div class="short-item">
-                <div class="short-thumbnail">
-                    <img src="https://via.placeholder.com/180x320" alt="Short video">
-                </div>
-                <div class="short-info">
-                    <h6 class="short-title">JavaScriptd</h6>
-                    <p class="short-views">2.4M views</p>
-                </div>
-            </div>
-            
-            <!-- Short 4 -->
-            <div class="short-item">
-                <div class="short-thumbnail">
-                    <img src="https://via.placeholder.com/180x320" alt="Short video">
-                </div>
-                <div class="short-info">
-                    <h6 class="short-title">How to center</h6>
-                    <p class="short-views">3.1M views</p>
-                </div>
-            </div>
-            
-            <!-- Short 5 -->
-            <div class="short-item">
-                <div class="short-thumbnail">
-                    <img src="https://via.placeholder.com/180x320" alt="Short video">
-                </div>
-                <div class="short-info">
-                    <h6 class="short-title">React hook</h6>
-                    <p class="short-views">1.7M views</p>
-                </div>
-            </div>
-            
-            <!-- Short 6 -->
-            <div class="short-item">
-                <div class="short-thumbnail">
-                    <img src="https://via.placeholder.com/180x320" alt="Short video">
-                </div>
-                <div class="short-info">
-                    <h6 class="short-title">Bootstrap vs</h6>
-                    <p class="short-views">980K views</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     
     <!-- Videos Grid -->
 
     <div class="row">
         <div class="shorts-header">
-            <i class="fab fa-youtube"></i>
+            <i class="fa-solid fa-video"></i>
             <h5>Videos</h5>
         </div>
 
-        @foreach ($videos as $video)
+        @foreach ($videos as $index => $video)
             <div class="col-lg-3 col-md-4 col-sm-6 video-card" onclick="window.location.href='{{ route('video.view',['category' => $video->category ,'slug'=>$video->slug ]) }}'">
                 <div class="video-thumbnail">
                     <img src="{{ $video->thumbnail }}" alt="{{ $video->slug }}">
@@ -129,16 +56,15 @@
                     </div>
                 </div>
             </div>
+            @if(($index + 1) % 8 === 0 && !$loop->last)
+                @include('frontpages.adspages.videoads')
+            @endif
         @endforeach
         <div class="mt-6">
-            {{ $videos->links() }}
+            {{ $videos->links('vendor.pagination.custom') }}
         </div>
         <!-- Ad Banner Section - Place this under the video content -->
-        <div class="ad-banner-container mt-5 mb-5">
-            <div class="ad-banner">
-                <img src="{{ asset('img/2.jpg') }}" alt="Advertisement" class="img-fluid">
-            </div>
-        </div>
+        @include('frontpages.adspages.bannerbig')
     </div>
 </div>
 @endsection

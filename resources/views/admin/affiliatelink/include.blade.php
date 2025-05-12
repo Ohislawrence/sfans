@@ -45,6 +45,14 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="" class="form-label">Media</label>
+                            <input type="text" name="media" class="form-input" id="" value="{{ $afflink->media }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="form-label">Media Dimension</label>
+                            <input type="text" name="media_dimension" class="form-input" id="" value="{{ $afflink->media_dimension }}">
+                        </div>
+                        <div class="form-group">
                             <label for="" class="form-label">Is Tangible</label>
                             <select name="is_tangible" class="form-input" id="">
                                 <option value="1" @if($afflink->is_tangible == 1 ) selected @endif>Yes</option>

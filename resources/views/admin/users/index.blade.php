@@ -1,5 +1,5 @@
 @extends('layouts.guest')
-@section('title',  'Refund Policy' )
+@section('title',  'Users' )
 @section('type',  'website' )
 @section('url',  Request::url() )
 @section('image',  asset("images/tracklia-page.jpg") )

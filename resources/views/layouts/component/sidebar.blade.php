@@ -4,10 +4,6 @@
         <i class="fas fa-home"></i>
         <span>Home</span>
     </a>
-    <a href="{{ route('short') }}" class="sidebar-item {{ request()->routeIs('short') ? 'active fw-bold' : '' }}">
-        <i class="fa-solid fa-circle-play"></i>
-        <span>Shorts</span>
-    </a>
     <a href="{{ route('categories') }}" class="sidebar-item {{ request()->routeIs('categories') ? 'active fw-bold' : '' }}">
         <i class="fa-solid fa-layer-group"></i>
         <span>Categories</span>
@@ -28,9 +24,9 @@
         <i class="fa-solid fa-images"></i>
         <span>Gifs</span>
     </a>
-    <a href="{{ route('gifs') }}" class="sidebar-item {{ request()->routeIs('gifs') ? 'active fw-bold' : '' }}">
-        <i class="fas fa-comments"></i>
-        <span>Sex Chat</span>
+    <a href="{{ route('shop') }}" class="sidebar-item {{ request()->routeIs('shop') ? 'active fw-bold' : '' }}">
+        <i class="fa-solid fa-store"></i>
+        <span>Shop</span>
     </a>
     
     
@@ -45,17 +41,25 @@
         <i class="fas fa-thumbs-up"></i>
         <span>Affiliate Links</span>
     </a>
+    <a href="{{ route('admin.shop.index') }}" class="sidebar-item">
+        <i class="fa-solid fa-shop"></i>
+        <span>Shop Items</span>
+    </a>
     <a href="{{ route('admin.users.index') }}" class="sidebar-item">
         <i class="fas fa-play-circle"></i>
         <span>Users</span>
     </a>
-    <a href="{{ route('admin.videos.index') }}" class="sidebar-item">
+    <a href="{{ route('admin.media.index') }}" class="sidebar-item">
         <i class="fas fa-history"></i>
-        <span>Videos</span>
+        <span>Media</span>
     </a>
     <a href="{{ route('admin.view.slut') }}" class="sidebar-item">
         <i class="fas fa-clock"></i>
         <span>Slut Chat</span>
+    </a>
+    <a href="{{ route('chat.all') }}" class="sidebar-item">
+        <i class="fas fa-clock"></i>
+        <span>My Chat</span>
     </a>
     
     
@@ -63,16 +67,14 @@
     @endrole
     @role('pornstar')
     @endrole
-    @role('slut')
-    @endrole
     @role('fan')
     <a href="{{ route('profile',[auth()->user()->username]) }}" class="sidebar-item">
         <i class="fas fa-play-circle"></i>
         <span>Profile</span>
     </a>
-    <a href="#" class="sidebar-item">
-        <i class="fas fa-history"></i>
-        <span>History</span>
+    <a href="{{ route('chat.all') }}" class="sidebar-item">
+        <i class="fas fa-clock"></i>
+        <span>My Chat</span>
     </a>
     <a href="#" class="sidebar-item">
         <i class="fas fa-clock"></i>
@@ -87,21 +89,20 @@
     @endrole
     @endauth
     
-    
-    
-    <a href="#" class="sidebar-item" target="_blank">
-        <i class="fa-solid fa-store"></i>
-        <span>Store</span>
+
+    <a href="{{ get_affiliate_link('3x3',['creator', 'fans','onlyfans'])->link }}" class="sidebar-item" target="_blank">
+        <i class="fa-solid fa-id-badge"></i>
+        <span>Free Onlyfans</span>
     </a>
-    <a href="#" class="sidebar-item" target="_blank">
+    <a href="{{ get_affiliate_link('3x3',['tube', 'video','tubes'])->link }}" class="sidebar-item" target="_blank">
         <i class="fas fa-film"></i>
         <span>Movies & Shows</span>
     </a>
-    <a href="#" class="sidebar-item" target="_blank">
+    <a href="{{ get_affiliate_link('3x3',['games', 'game','sex game'])->link }}" class="sidebar-item" target="_blank">
         <i class="fas fa-gamepad"></i>
         <span>Gaming</span>
     </a>
-    <a href="#" class="sidebar-item" target="_blank">
+    <a href="{{ get_affiliate_link('3x3',['cams', 'cam','webcam','cam girls'])->link }}" class="sidebar-item" target="_blank">
         <i class="fas fa-broadcast-tower"></i>
         <span>Live Cam</span>
     </a>

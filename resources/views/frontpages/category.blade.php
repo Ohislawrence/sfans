@@ -1,10 +1,10 @@
 @extends('layouts.guest')
-@section('title',  'Refund Policy' )
+@section('title',  'Category list' )
 @section('type',  'website' )
 @section('url',  Request::url() )
-@section('image',  asset("images/tracklia-page.jpg") )
-@section('description',  'This policy is effective as of 11th November 2024' )
-@section('imagealt',  'Refund Policy image' )
+@section('image',  '' )
+@section('description',  'Categoties pick one!' )
+@section('imagealt',  '' )
 
 
 @section('header')
@@ -26,9 +26,10 @@
     </div>
     <div class="categories-container">
         @foreach($categories as $cat)
-            <button class="category-btn" onclick="window.location.href='{{ route('category.video', [ $cat]) }}';">{{ $cat }}</button>
+            <button class="category-btn" onclick="window.location.href='{{ route('category.all', ['slug' => $cat]) }}';">{{ $cat }}</button>
         @endforeach
-        
     </div>
+    <!-- Ad Banner Section - Place this under the video content -->
+    @include('frontpages.adspages.bannerbig')
 </div>
 @endsection

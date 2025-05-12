@@ -32,7 +32,7 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|unique:videos,title',
             'link' =>'string',
             'duration' =>'string',
             'thumbnail' =>'string',

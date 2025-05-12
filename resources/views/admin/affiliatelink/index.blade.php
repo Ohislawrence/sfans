@@ -127,8 +127,20 @@
                         <input type="text" name="cost" class="form-input" id="" value="{{ old('cost') }}">
                     </div>
                     <div class="form-group">
+                        <label for="" class="form-label">Media</label>
+                        <input type="text" name="media" class="form-input" id="" value="{{ old('media') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="form-label">Media Dimension</label>
+                        <input type="text" name="media_dimension" class="form-input" id="" value="{{ old('media_dimension') }}">
+                    </div>
+                    <div class="form-group">
                         <label for="" class="form-label">Countries</label>
-                        <textarea name="coutries" class="form-input">{{ old('coutries') }}</textarea>
+                        <select name="coutries[]" class="form-input form-select form-select-solid" multiple="" aria-label="Select a country" data-control="select2">
+                            @foreach ( $countries as $country)
+                            <option value="{{ $country->code }}">{{ $country->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="" class="form-label">Tags</label>

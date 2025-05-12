@@ -14,6 +14,8 @@ class Affiliatelink extends Model
         'coutries',
         'is_smartlink',
         'tags',
+        'media',
+        'media_dimension',
         'is_tangible',
     ];
     

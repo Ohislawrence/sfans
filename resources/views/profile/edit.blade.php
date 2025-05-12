@@ -1,29 +1,57 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.guest')
+@section('title',  'Edit Profile' )
+@section('type',  'website' )
+@section('url',  Request::url() )
+@section('image',  asset("images/tracklia-page.jpg") )
+@section('description',  'This policy is effective as of 11th November 2024' )
+@section('imagealt',  'Refund Policy image' )
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
+@section('header')
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
+@endsection
+
+
+
+
+@section('footer')
+
+@endsection
+
+@section('slot')
+<!-- Main Content -->
+<div class="main-content">
+    <div class="container-fluid">
+        <!-- List View -->
+        <div class="crud-container">
+            @include('layouts.component.alert')
+            <div class="crud-header">
+                <h3 class="crud-title">Profile Information</h3>
             </div>
+            @include('profile.partials.update-profile-information-form')
         </div>
     </div>
-</x-app-layout>
+
+    <div class="container-fluid">
+        <!-- List View -->
+        <div class="crud-container">
+            @include('layouts.component.alert')
+            <div class="crud-header">
+                <h3 class="crud-title">Update Password</h3>
+            </div>
+            @include('profile.partials.update-password-form')
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <!-- List View -->
+        <div class="crud-container">
+            @include('layouts.component.alert')
+            <div class="crud-header">
+                <h3 class="crud-title">Delete Account</h3>
+            </div>
+            @include('profile.partials.delete-user-form')
+        </div>
+    </div>
+</div>
+@endsection

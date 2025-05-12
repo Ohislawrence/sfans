@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Shop;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\JsonResponse;
 
 class FrontpageContrller extends Controller
 {
     public function index()
     {
-        $categories = Video::select('category')->distinct()->limit(10)->pluck('category');
+        $categories = Video::whereNull('media_type')
+            ->select('category')
+            ->distinct()
+            ->limit(10)
+            ->pluck('category');
         $visitorPreferences = Cookie::get('visitor_preferences');
         $tags = [];
 
@@ -28,7 +34,7 @@ class FrontpageContrller extends Controller
         $matchedVideoIds = [];
 
         if (!empty($tags)) {
-            $matchedVideos = Video::where(function($query) use ($tags) {
+            $matchedVideos = Video::whereNull('media_type')->where(function($query) use ($tags) {
                 foreach ($tags as $tag) {
                     $query->orWhere('tags', 'LIKE', "%{$tag}%");
                 }
@@ -41,7 +47,7 @@ class FrontpageContrller extends Controller
         }
         
         // Fetch other videos (exclude matched), also sorted by date
-        $otherVideos = Video::whereNotIn('id', $matchedVideoIds)
+        $otherVideos = Video::whereNull('media_type')->whereNotIn('id', $matchedVideoIds)
                             ->orderBy('date', 'desc') // <-- Sort by date
                             ->take(12 - $matchedVideos->count())
                             ->get();
@@ -80,22 +86,23 @@ class FrontpageContrller extends Controller
 
     public function videos()
     {
-        $videos = Video::all();
+        $videos = Video::whereNull('media_type')->get();
         return view('frontpages.videos', compact('videos'));
     }
 
     public function video( $category,$slug)
     {
-        $video = Video::where('slug',$slug)->where('category',$category)->firstOrFail();
+        $video = Video::whereNull('media_type')->where('slug',$slug)->where('category',$category)->firstOrFail();
 
         // Get related videos by tags (using LIKE matching)
         $relatedVideos = Video::where('slug', '!=', $slug)
+        ->whereNull('media_type')
         ->where(function($query) use ($video) {
             foreach ($video->tags as $tag) {
                 $query->orWhere('tags', 'LIKE', "%{$tag}%");
             }
         })
-        ->limit(6)
+        ->limit(12)
         ->get();
 
         // 1. Get existing visitor preferences
@@ -128,15 +135,38 @@ class FrontpageContrller extends Controller
     public function categories()
     {
         $categories = Video::select('category')->distinct()->limit(10)->pluck('category');
+
+        
         return view('frontpages.category', compact('categories'));
     }
 
-    public function videocategory($slug)
+    public function category($slug, $tab=null)
     {
-        $videos = Video::whereNull('media_type')->where('category', $slug)->paginate();
-        $categories = Video::select('category')->distinct()->limit(10)->pluck('category');
+        if($tab == null || $tab == 'videos')
+        {
+        $viewAll = Video::whereNull('media_type')->where('tags', 'LIKE', "%{$slug}%")->paginate();
         
-        return view('frontpages.videos', compact('videos','categories','slug'));
+        }
+        if($tab == 'photos'){
+            $viewAll = Video::where('media_type',2)->where('tags', 'LIKE', "%{$slug}%")->paginate();
+            
+        }
+        if($tab == 'gifs'){
+            $viewAll = Video::where('media_type',3)->where('tags', 'LIKE', "%{$slug}%")->paginate();
+            
+        }
+        
+        $categories = Video::select('category')->distinct()->limit(10)->pluck('category');
+
+        // Default tab if not provided
+        $tab = $tab ?? 'videos';
+
+        // Validate tab
+        if (!in_array($tab, ['photos', 'videos','gifs'])) {
+            $tab = 'videos'; // fallback to 'video'
+        }
+
+        return view('frontpages.categoryview', compact('categories','slug','tab','viewAll'));
     }
 
     public function photocategory($slug)
@@ -181,8 +211,17 @@ class FrontpageContrller extends Controller
 
     public function photoview($slug)
     {
-        $photo = Video::where('media_type',2)->where('slug', $slug)->paginate();
-        return view('frontpages.pictureview', compact('photo'));
+        $photo = Video::where('media_type',2)->where('slug', $slug)->first();
+        $relatedPhotos = Video::where('slug', '!=', $slug)
+        ->where('media_type', 2)
+        ->where(function($query) use ($photo) {
+            foreach ($photo->tags as $tag) {
+                $query->orWhere('tags', 'LIKE', "%{$tag}%");
+            }
+        })
+        ->limit(12)
+        ->get();
+        return view('frontpages.pictureview', compact('photo','relatedPhotos'));
     }
 
     //gifs
@@ -194,8 +233,22 @@ class FrontpageContrller extends Controller
 
     public function gifview($slug)
     {
-        $gifs = Video::where('media_type',3)->where('slug', $slug)->paginate();
-        return view('frontpages.pictureview', compact('gifs'));
+        $gif = Video::where('media_type', 3)->where('slug', $slug)->first();
+
+        $relatedGifs = collect();
+
+        if ($gif && $gif->tags) {
+            $relatedGifs = Video::where('slug', '!=', $slug)
+                ->where('media_type', 3)
+                ->where(function ($query) use ($gif) {
+                    foreach ($gif->tags as $tag) {
+                        $query->orWhere('tags', 'LIKE', '%' . $tag . '%');
+                    }
+                })
+                ->limit(12)
+                ->get();
+        }
+        return view('frontpages.gifsview', compact('gif','relatedGifs'));
     }
 
     //userlist
@@ -216,16 +269,69 @@ class FrontpageContrller extends Controller
     {
         $user = User::where('username', $username)->firstOrFail();
 
+        if($tab == null || $tab == 'videos')
+        {
+        $viewAll = Video::whereNull('media_type')->where('pornstars', 'LIKE', "%{$user->username}%")->paginate();
+        
+        }
+        if($tab == 'photos'){
+            $viewAll = Video::where('media_type',2)->where('pornstars', 'LIKE', "%{$user->username}%")->paginate();
+            
+        }
+        if($tab == 'gifs'){
+            $viewAll = Video::where('media_type',3)->where('pornstars', 'LIKE', "%{$user->username}%")->paginate();
+            
+        }
+
         // Default tab if not provided
         $tab = $tab ?? 'videos';
 
         // Validate tab
-        if (!in_array($tab, ['shorts', 'photos', 'videos','chats'])) {
+        if (!in_array($tab, ['gifs', 'photos', 'videos'])) {
             $tab = 'videos'; // fallback to 'video'
         }
 
-        return view('frontpages.profile', compact('user', 'tab'));
+        return view('frontpages.profile', compact('user', 'tab','viewAll'));
     }
 
+    public function shop()
+    {
+        $products = Shop::all();
+        return view('frontpages.shop', compact('products'));
+    }
+
+    public function show($id)
+    {
+        $product = Shop::findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'product' => $product
+        ]);
+    }
+
+    public function viewitem($slug)
+    {
+        $item = Shop::where('slug', $slug)->first();
+
+        if (!$item || !$item->url) {
+            abort(404); // or return a custom error response/view
+        }
+
+        return redirect($item->url);
+    }
+
+    public function notify()
+    {
+        $profile = User::role('slut')->inRandomOrder()->first();
+    
+        return response()->json([
+            'name' => 'Need a jerk mate?',
+            'avatar' => asset('storage/' . $profile->display_photo),
+            'message' => "{$profile->name} is online. ",
+            'link' => route('chat', $profile->username),
+        ]);
+    }
+    
+    
     
 }

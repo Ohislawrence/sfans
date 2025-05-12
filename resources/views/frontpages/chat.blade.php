@@ -2,9 +2,9 @@
 @section('title',  'Chat' )
 @section('type',  'website' )
 @section('url',  Request::url() )
-@section('image',  asset("images/tracklia-page.jpg") )
-@section('description',  'This policy is effective as of 11th November 2024' )
-@section('imagealt',  'Refund Policy image' )
+@section('image',  '' )
+@section('description',  '' )
+@section('imagealt',  '' )
 
 
 @section('header')

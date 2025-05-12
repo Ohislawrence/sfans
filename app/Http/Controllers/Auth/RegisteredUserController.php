@@ -49,7 +49,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('profile',[Auth::user()->username], absolute: false));
+        return redirect(route('profile',['username' => Auth::user()->username], absolute: false));
     }
 
     function generateUniqueUsername($fullName)

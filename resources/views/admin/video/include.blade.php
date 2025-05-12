@@ -10,7 +10,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.videos.update', $video) }}" class="crud-form" method="POST">
+                <form action="{{ route('admin.media.update', $video) }}" class="crud-form" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
@@ -97,7 +97,7 @@
                 <p>Are you sure you want to delete {{ $video->title }}? <b>This action cannot be undone.</b></p>
                 <div class="form-actions">
                     <button type="button" class="btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form action="{{ route('admin.videos.destroy', $video) }}" method="POST" style="display:inline;">
+                    <form action="{{ route('admin.media.destroy', $video) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="crud-btn" style="background-color: #ff4444;">Delete</button>

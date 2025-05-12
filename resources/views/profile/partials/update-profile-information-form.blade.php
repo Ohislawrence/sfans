@@ -1,8 +1,5 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Information') }}
-        </h2>
 
         <p class="mt-1 text-sm text-gray-600">
             {{ __("Update your account's profile information and email address.") }}
@@ -17,15 +14,21 @@
         @csrf
         @method('patch')
 
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+        <div class="form-group">
+            <label for="" class="form-label">Name</label>
+            <input type="text" id="name" name="name" class="form-input" id="" value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+        <div class="form-group">
+            <label for="" class="form-label">User Name</label>
+            <input type="text" id="username" class="form-input" id="" value="{{ old('username', $user->username) }}" required autofocus autocomplete="username" readonly>
+            <x-input-error class="mt-2" :messages="$errors->get('username')" />
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" name="email" type="email" class="form-input" value="{{ old('email', $user->email) }}" autocomplete="email" readonly/>
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
@@ -47,8 +50,14 @@
             @endif
         </div>
 
+        <div class="form-group">
+            <label for="" class="form-label">Bio</label>
+            <textarea class="form-input" name="bio">{{ old('bio', $user->bio) }}</textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('bio')" />
+        </div>
+
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button class="crud-btn">{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p

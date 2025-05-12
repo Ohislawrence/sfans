@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Affiliatelink;
+use App\Models\Country;
 use Illuminate\Http\Request;
 
 class AffiliatelinkController extends Controller
@@ -13,9 +14,9 @@ class AffiliatelinkController extends Controller
      */
     public function index()
     {
-        
         $afflinks = Affiliatelink::latest()->paginate(10);
-        return view('admin.affiliatelink.index', compact('afflinks'));
+        $countries = Country::all();
+        return view('admin.affiliatelink.index', compact('afflinks','countries'));
     }
 
     /**
@@ -36,11 +37,14 @@ class AffiliatelinkController extends Controller
             'offer_by' => 'required|string|max:255',
             'cost' => 'nullable|string|max:255',
             'offer_name'=> 'nullable|string|max:255',
-            'coutries'=> 'nullable|string|max:255',
+            'coutries'=> 'nullable',
+            'media' => 'nullable',
+            'media_dimension' => 'nullable',
             'is_smartlink'=> 'nullable|string|max:255',
             'tags'=> 'nullable',
             'is_tangible'=> 'nullable|string|max:255',
         ]);
+        $validated['coutries'] = is_array($request->coutries) ? implode(',', $request->coutries) : $request->coutries;
 
         Affiliatelink::create($validated);
 
@@ -75,6 +79,8 @@ class AffiliatelinkController extends Controller
             'offer_name'=> 'nullable|string|max:255',
             'coutries'=> 'nullable|string|max:255',
             'is_smartlink'=> 'nullable|string|max:255',
+            'media' => 'nullable',
+            'media_dimension' => 'nullable',
             'tags'=> 'nullable',
             'is_tangible'=> 'nullable|string|max:255',
         ]);

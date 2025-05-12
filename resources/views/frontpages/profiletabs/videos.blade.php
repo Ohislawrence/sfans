@@ -1,19 +1,31 @@
-<!-- Videos Tab -->
-<div class="tab-pane fade show active" id="videos" role="tabpanel">
-    <div class="row">
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="video-card">
-                <div class="video-thumbnail">
-                    <img src="https://via.placeholder.com/320x180" alt="Video thumbnail">
-                    <span class="video-duration">10:30</span>
+   <!-- Videos Grid -->
+   <div class="row">
+    @forelse ( $viewAll as $video)
+        <!-- Video 1 -->
+        <div class="col-lg-3 col-md-4 col-sm-6 video-card" onclick="window.location.href='{{ route('video.view',['category' => $video->category ,'slug'=>$video->slug ]) }}'">
+            <div class="video-thumbnail">
+                <img src="{{ $video->thumbnail }}" alt="{{ $video->slug }}">
+                <div class="play-overlay">
+                    <i class="fas fa-play play-icon"></i>
                 </div>
-                <div class="video-info">
-                    <h6 class="video-title">How to build a YouTube clone</h6>
-                    <p class="video-stats">120K views</p>
+                <span class="video-duration">{{ gmdate('i:s', $video->duration) }}</span>
+            </div>
+            <div class="video-info">
+                <div class="d-flex">
+                    <div>
+                        <h6 class="video-title">{{ $video->title }}</h6>
+                        <p class="video-channel">{{ $video->channel }}</p>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Add more video cards -->
+    @empty
+        <h3>No videos</h3>
+    @endforelse
+    <div class="mt-6">
+        {{ $viewAll->links('vendor.pagination.custom') }}
     </div>
+    <!-- Ad Banner Section - Place this under the video content -->
+    @include('frontpages.adspages.bannerbig')
+</div>
 </div>

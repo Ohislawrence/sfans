@@ -1,10 +1,10 @@
 @extends('layouts.guest')
-@section('title',  'Refund Policy' )
+@section('title',  'Gifs' )
 @section('type',  'website' )
 @section('url',  Request::url() )
-@section('image',  asset("images/tracklia-page.jpg") )
-@section('description',  'This policy is effective as of 11th November 2024' )
-@section('imagealt',  'Refund Policy image' )
+@section('image',  asset('storage/' . $gifs->random()->thumbnail)  )
+@section('description',  'List of your favorite gifs from around the internet.' )
+@section('imagealt',  '' )
 
 
 @section('header')
@@ -22,21 +22,28 @@
 <!-- Main Content -->
 <div class="main-content">
     <!-- Page Header -->
-    <div class="shorts-header">
-        <h3>Gifs</h3>
+    <div class="page-header">
+        <h3 class="page-title">
+            GIF
+        </h3>
     </div>
     <div class="gallery-container">
-        @forelse ( $gifs as $gif)
-            <div class="gallery-item">
+        @forelse ( $gifs as $index => $gif)
+        <div class="gallery-item">
+            <a href="{{ route('gifs.view', $gif->slug) }}" class="gallery-link">
                 <img src="{{ $gif->link }}" alt="{{ $gif->slug }}" class="gallery-img" loading="lazy">
-                <button class="save-btn">
-                    <i class="fas fa-bookmark"></i> Save
-                </button>
-                    <span class="gallery-title">{{ $gif->title }}</span>
-            </div>
+                <span class="gallery-title">{{ $gif->title }}</span>
+            </a>
+        </div>
+        @if(($index + 1) % 8 === 0 && !$loop->last)
+            @include('frontpages.adspages.photoads')
+        @endif
         @empty
             
         @endforelse
+        
     </div>
+    <!-- Ad Banner Section - Place this under the video content -->
+    @include('frontpages.adspages.bannerbig')
 </div>
 @endsection

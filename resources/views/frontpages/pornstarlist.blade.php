@@ -1,10 +1,10 @@
 @extends('layouts.guest')
-@section('title',  'Refund Policy' )
+@section('title',  'PornStars' )
 @section('type',  'website' )
 @section('url',  Request::url() )
-@section('image',  asset("images/tracklia-page.jpg") )
-@section('description',  'This policy is effective as of 11th November 2024' )
-@section('imagealt',  'Refund Policy image' )
+@section('image',  asset('storage/' . $pornstars->random()->display_photo) )
+@section('description',  'See top pornstars' )
+@section('imagealt',  '' )
 
 
 @section('header')
@@ -43,5 +43,6 @@
             
         </div>
     </div>
+    @include('frontpages.adspages.bannerbig')
 </div>
 @endsection

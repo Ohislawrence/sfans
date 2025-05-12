@@ -1,5 +1,5 @@
 @extends('layouts.guest')
-@section('title',  'Refund Policy' )
+@section('title',  'Media' )
 @section('type',  'website' )
 @section('url',  Request::url() )
 @section('image',  asset("images/tracklia-page.jpg") )
@@ -27,9 +27,13 @@
             @include('layouts.component.alert')
             <div class="crud-header">
                 <h2 class="crud-title">Videos</h2>
+                <button class="crud-btn" data-bs-toggle="modal" data-bs-target="#importModal">
+                    <i class="fas fa-plus"></i>
+                    Import Media from File
+                </button>
                 <button class="crud-btn" data-bs-toggle="modal" data-bs-target="#createModal">
                     <i class="fas fa-plus"></i>
-                    Add Video
+                    Add Media
                 </button>
             </div>
 
@@ -38,7 +42,7 @@
                     <tr>
                         <th>Title</th>
                         <th>Channel</th>
-                        <th>Is_short</th>
+                        <th>Media Type</th>
                         <th>category</th>
                         <th>Actions</th>
                     </tr>
@@ -48,7 +52,17 @@
                     <tr>
                         <td>{{ $video->title }}</td>
                         <td>{{ $video->channel }}</td>
-                        <td>{{ $video->media_type }}</td>
+                        <td>
+                            @if($video->media_type == '')
+                            Video
+                            @elseif ($video->media_type == '1')
+                            short
+                            @elseif ($video->media_type == '2')
+                            Photo
+                            @elseif ($video->media_type == '3')
+                            Gif
+                            @endif
+                        </td>
                         <td>{{ $video->category }}</td>
                         <td>
                             <div class="crud-actions">
@@ -101,12 +115,12 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="createModalLabel">
                     <i class="fas fa-plus"></i>
-                    Add New Video
+                    Add New Media
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.videos.store') }}" class="crud-form" method="POST">
+                <form action="{{ route('admin.media.store') }}" class="crud-form" method="POST">
                         @csrf
                     <div class="form-group">
                         <label for="videoTitle" class="form-label">Title</label>
@@ -171,6 +185,36 @@
                     <div class="form-actions">
                         <button type="button" class="btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="crud-btn">Save Video</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Create Modal -->
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">
+                    <i class="fas fa-plus"></i>
+                    IMport with CSV
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('admin.cvsimport') }}" class="crud-form" method="POST" enctype="multipart/form-data">
+                        @csrf
+                    <div class="form-group">
+                        <label for="videoTitle" class="form-label">CVS file ONly</label>
+                        <input type="file" name="csv_file" class="form-input" accept=".csv" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="crud-btn">Import Data</button>
                     </div>
                 </form>
             </div>

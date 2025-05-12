@@ -1,14 +1,16 @@
 @extends('layouts.guest')
-@section('title',  'Refund Policy' )
+@section('title',  'Photos' )
 @section('type',  'website' )
 @section('url',  Request::url() )
-@section('image',  asset("images/tracklia-page.jpg") )
-@section('description',  'This policy is effective as of 11th November 2024' )
-@section('imagealt',  'Refund Policy image' )
+@section('image',  asset('storage/' . $photos->random()->thumbnail) )
+@section('description',  'Sexy photos' )
+@section('imagealt',  '' )
 
 
 @section('header')
+<style>
 
+</style>
 @endsection
 
 
@@ -22,23 +24,33 @@
 <!-- Main Content -->
 <div class="main-content">
     <!-- Page Header -->
-    <div class="shorts-header">
-            <h3>Photos</h3>
-        </div>
+    <div class="page-header">
+        <h1 class="page-title">
+            Photos
+        </h1>
+    </div>
     <div class="gallery-container">
-        
-        @forelse ( $photos as $photo)
+        @forelse ($photos as $index => $photo)
             <div class="gallery-item">
-                <img src="{{ $photo->link }}" alt="{{ $photo->slug }}" class="gallery-img" loading="lazy">
-                <button class="save-btn">
-                    <i class="fas fa-bookmark"></i> Save
-                </button>
-                    <span class="gallery-title">{{ $photo->title }}</span>
+                <a href="{{ route('photo.view', $photo->slug) }}" class="gallery-link">
+                    <div class="gallery-img-container">
+                        <img src="{{ $photo->link }}" alt="{{ $photo->slug }}" class="gallery-img" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <span class="gallery-title">{{ $photo->title }}</span>
+                    </div>
+                </a>
             </div>
+            @if(($index + 1) % 8 === 0 && !$loop->last)
+            @include('frontpages.adspages.photoads')
+            @endif
         @empty
+            <!-- Empty state -->
             
         @endforelse
-        
     </div>
+</div>
+    <!-- Ad Banner Section - Place this under the video content -->
+    @include('frontpages.adspages.bannerbig')
 </div>
 @endsection

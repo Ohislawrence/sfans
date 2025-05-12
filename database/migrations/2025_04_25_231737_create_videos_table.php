@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('quality')->nullable();
             $table->string('channel')->nullable();
             $table->string('empty')->nullable();
-            $table->date('date');
+            $table->string('date');
             $table->timestamps();
         });
     }

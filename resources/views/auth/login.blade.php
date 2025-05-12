@@ -52,7 +52,7 @@
         
         <div class="divider">or</div>
         
-        <button type="button" class="btn btn-google mb-3">
+        <button onclick="window.location.href='{{ route('socialite.redirect', 'google') }}';" type="button" class="btn btn-google mb-3" >
             <i class="fab fa-google"></i> Sign in with Google
         </button>
     </form>

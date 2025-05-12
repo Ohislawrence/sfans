@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('coutries')->nullable();
             $table->string('is_smartlink');
             $table->string('tags');
-            $table->string('media')->nullable();
+            $table->text('media')->nullable();
             $table->string('media_dimension')->nullable();
             $table->boolean('is_tangible')->default(false);
             $table->timestamps();

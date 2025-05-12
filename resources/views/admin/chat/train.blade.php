@@ -1,5 +1,5 @@
 @extends('layouts.guest')
-@section('title',  'Affiliate Links' )
+@section('title',  'Train Sluts' )
 @section('type',  'website' )
 @section('url',  Request::url() )
 @section('image',  asset("images/tracklia-page.jpg") )
