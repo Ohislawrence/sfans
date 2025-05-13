@@ -134,9 +134,7 @@ class FrontpageContrller extends Controller
     //category
     public function categories()
     {
-        $categories = Video::select('category')->distinct()->limit(10)->pluck('category');
-
-        
+        $categories = Video::select('category')->distinct()->pluck('category');
         return view('frontpages.category', compact('categories'));
     }
 
@@ -156,7 +154,7 @@ class FrontpageContrller extends Controller
             
         }
         
-        $categories = Video::select('category')->distinct()->limit(10)->pluck('category');
+        $categories = Video::select('category')->distinct()->limit(20)->pluck('category');
 
         // Default tab if not provided
         $tab = $tab ?? 'videos';
