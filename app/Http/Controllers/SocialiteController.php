@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class SocialiteController extends Controller
 {
@@ -39,11 +40,14 @@ class SocialiteController extends Controller
                 'username'         => $this->generateUniqueUsername($response->getName()),
                 'password'        => Str::random(32),
             ]);
+
+            $role = Role::where('name', 'fan')->first();
+            $user->assignRole($role);
         }
  
         auth()->login($user);
  
-        return redirect()->intended(route('dashboard'));
+        return redirect()->intended(route('profile'));
     }
  
     protected function validateProvider(string $provider): void

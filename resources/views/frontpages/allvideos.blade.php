@@ -1,10 +1,10 @@
 @extends('layouts.guest')
-@section('title',  'Welcome Fan!!!' )
+@section('title',  'All Videos' )
 @section('type',  'website' )
 @section('url',  Request::url() )
-@section('image',  asset('storage/' . $videos->random()->thumbnail) )
-@section('description',  'See your greatest fanasy come true.' )
-@section('imagealt',  '' )
+@section('image',  asset("images/tracklia-page.jpg") )
+@section('description',  'Sexy videos' )
+@section('imagealt',  'porn' )
 
 
 @section('header')
@@ -24,21 +24,18 @@
     <!-- Categories -->
     <div class="tags-container">
         @foreach($categories as $cat)
-            <button class="category-btn" onclick="window.location.href='{{ route('category.all', [ $cat]) }}';">{{ $cat }}</button>
+            <button class="category-btn onclick="window.location.href='{{ route('category.all', [ $cat]) }}';">{{ $cat }}</button>
         @endforeach
     </div>
     
-    
-    
+    <!-- Page Header -->
+    <div class="page-header">
+        All Videos
+    </div>
     <!-- Videos Grid -->
-
     <div class="row">
-        <div class="shorts-header">
-            <i class="fa-solid fa-video"></i>
-            <h5>Videos</h5>
-        </div>
-
-        @foreach ($videos as $index => $video)
+        @forelse ( $videos as $index => $video)
+            <!-- Video 1 -->
             <div class="col-lg-3 col-md-4 col-sm-6 video-card" onclick="window.location.href='{{ route('video.view',['category' => $video->category ,'slug'=>$video->slug ]) }}'">
                 <div class="video-thumbnail">
                     <img src="{{ $video->thumbnail }}" alt="{{ $video->slug }}">
@@ -56,16 +53,14 @@
                     </div>
                 </div>
             </div>
-            @if(($index + 1) % 8 === 0 && !$loop->last)
+            @if(($index + 1) % 6 === 0 && !$loop->last)
                 @include('frontpages.adspages.videoads')
             @endif
-        @endforeach
+        @empty
+            <h1>No video</h1>
+        @endforelse
         <div class="mt-6">
-            @if($videos->hasPages())
-                <div class="pagination-container">
-                    {{ $videos->links('vendor.pagination.custom') }}
-                </div>
-            @endif
+            {{ $videos->links('vendor.pagination.custom') }}
         </div>
         <!-- Ad Banner Section - Place this under the video content -->
         @include('frontpages.adspages.bannerbig')

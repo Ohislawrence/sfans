@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('username')->unique();
-            $table->text('model_path')->nullable(); // Will store serialized trained model
+            $table->text('trained_data')->nullable(); // Will store serialized trained model
             $table->text('intents_data')->nullable(); // Will store the original JSON intents
             $table->timestamps();
         });

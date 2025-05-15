@@ -40,7 +40,7 @@ class FrontpageContrller extends Controller
                 }
             })
             ->orderBy('date', 'desc') // <-- Sort matched videos by date
-            ->take(12)
+            ->take(32)
             ->get();
         
             $matchedVideoIds = $matchedVideos->pluck('id')->toArray();
@@ -49,7 +49,7 @@ class FrontpageContrller extends Controller
         // Fetch other videos (exclude matched), also sorted by date
         $otherVideos = Video::whereNull('media_type')->whereNotIn('id', $matchedVideoIds)
                             ->orderBy('date', 'desc') // <-- Sort by date
-                            ->take(12 - $matchedVideos->count())
+                            ->take(32 - $matchedVideos->count())
                             ->get();
 
         // 3. Merge both collections together
@@ -58,7 +58,7 @@ class FrontpageContrller extends Controller
         // 4. (Optional) If you still want to paginate manually later, you can create a LengthAwarePaginator
 
         $page = request('page', 1);
-        $perPage = 12;
+        $perPage = 32;
 
         $pagedVideos = new LengthAwarePaginator(
             $videos->forPage($page, $perPage),
@@ -86,8 +86,9 @@ class FrontpageContrller extends Controller
 
     public function videos()
     {
-        $videos = Video::whereNull('media_type')->get();
-        return view('frontpages.videos', compact('videos'));
+        $videos = Video::whereNull('media_type')->paginate(20);
+        $categories = Video::select('category')->distinct(20)->pluck('category');
+        return view('frontpages.allvideos', compact('videos','categories'));
     }
 
     public function video( $category,$slug)

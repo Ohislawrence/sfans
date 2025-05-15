@@ -15,7 +15,10 @@ use App\Http\Controllers\Admin\CsvController;
 use App\Http\Controllers\Admin\ShopController;
 use App\Http\Controllers\ShortsController;
 use App\Http\Controllers\SocialiteController;
+use App\Models\Video;
 use Spatie\Permission\Models\Role;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 
 Route::get('/age-verification', [AgeVerificationController::class, 'show'])->name('age.verify');
 Route::post('/age-verification', [AgeVerificationController::class, 'verify'])->name('age.verify.submit');
@@ -67,6 +70,42 @@ Route::middleware(['age.verified'])->group(function () {
     Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])
     ->name('socialite.callback');
     
+});
+
+//sitemap
+Route::get('/sitemap.xml', function () {
+    $sitemap = Sitemap::create()
+        ->add(Url::create('/')
+            ->setLastModificationDate(now())
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
+            ->setPriority(1.0))
+        ->add(Url::create('/categories')
+            ->setLastModificationDate(now())
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+            ->setPriority(0.8))
+        ->add(Url::create('/pornstars')
+            ->setLastModificationDate(now())
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+            ->setPriority(0.8))
+        ->add(Url::create('/sluts')
+            ->setLastModificationDate(now())
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+            ->setPriority(0.8))
+        ->add(Url::create('/photos')
+            ->setLastModificationDate(now())
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+            ->setPriority(0.8))
+        ->add(Url::create('/gifs')
+            ->setLastModificationDate(now())
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+            ->setPriority(0.6))
+        ->add(Url::create('/shop')
+            ->setLastModificationDate(now())
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+            ->setPriority(0.6)) ;
+
+    
+    return $sitemap->toResponse(request());
 });
 
 

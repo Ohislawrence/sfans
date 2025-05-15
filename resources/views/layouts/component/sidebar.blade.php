@@ -4,6 +4,10 @@
         <i class="fas fa-home"></i>
         <span>Home</span>
     </a>
+    <a href="{{ route('videos') }}" class="sidebar-item {{ request()->routeIs('videoss') ? 'active fw-bold' : '' }}">
+        <i class="fas fa-home"></i>
+        <span>Videos</span>
+    </a>
     <a href="{{ route('categories') }}" class="sidebar-item {{ request()->routeIs('categories') ? 'active fw-bold' : '' }}">
         <i class="fa-solid fa-layer-group"></i>
         <span>Categories</span>
@@ -106,6 +110,16 @@
         <i class="fas fa-broadcast-tower"></i>
         <span>Live Cam</span>
     </a>
+    @auth
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="sidebar-item mb-6" style="border: none; background: none; padding: 0; display: flex; align-items: center;">
+            <i class="fas fa-thumbs-up"></i>
+            <span style="margin-left: 8px;">Sign Out</span>
+        </button>
+    </form>
+    @endauth
+    
 
      <!-- Sidebar Footer -->
      <div class="sidebar-footer">
